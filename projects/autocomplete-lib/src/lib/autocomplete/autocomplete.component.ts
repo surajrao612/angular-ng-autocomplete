@@ -48,6 +48,7 @@ const isTab = keyCode => keyCode === 9;
 
 export class AutocompleteComponent implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor {
   @ViewChild('searchInput') searchInput: ElementRef; // input element
+  @ViewChild('manualSearch') manualSearchElem: ElementRef; // manual search element
   @ViewChild('filteredListElement') filteredListElement: ElementRef; // element of items
   @ViewChild('historyListElement') historyListElement: ElementRef; // element of history items
 
@@ -78,6 +79,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, AfterViewInit, 
   @Input() public data = [];
   @Input() public searchKeyword: string; // keyword to filter the list
   @Input() public placeHolder = ''; // input placeholder
+  @Input() public manualSearchText = '';
   @Input() public heading = '';
   @Input() public initialValue: any; // set initial value
   /**
@@ -106,6 +108,8 @@ export class AutocompleteComponent implements OnInit, OnChanges, AfterViewInit, 
   // @Output events
   /** Event that is emitted whenever an item from the list is selected. */
   @Output() selected = new EventEmitter<any>();
+
+  @Output() manualsearchselected = new EventEmitter<any>();
 
   /** Event that is emitted whenever an input is changed. */
   @Output() inputChanged = new EventEmitter<any>();
@@ -254,6 +258,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, AfterViewInit, 
    */
   isType(item) {
     return typeof item === 'string';
+  }
+
+  public manualsearch() {
+    this.manualsearchselected.emit();
   }
 
   /**
@@ -585,7 +593,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, AfterViewInit, 
   /**
    * on keyup == when input changed
    * @param e event
-   */
+   */  
   onKeyUp(e) {
     this.notFound = false; // search results are unknown while typing
     // if input is empty

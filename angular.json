@@ -167,5 +167,8 @@
       }
     }
   },
-  "defaultProject": "angular-autocomplete"
+  "defaultProject": "angular-autocomplete",
+  "cli": {
+    "analytics": false
+  }
 }
