@@ -117,6 +117,8 @@ export class AutocompleteComponent implements OnInit, OnChanges, AfterViewInit, 
   /** Event that is emitted whenever an input is focused. */
   @Output() readonly inputFocused: EventEmitter<void> = new EventEmitter<void>();
 
+  @Output() readonly inputBlur: EventEmitter<void> = new EventEmitter<void>();
+
   /** Event that is emitted whenever an input is cleared. */
   @Output() readonly inputCleared: EventEmitter<void> = new EventEmitter<void>();
 
@@ -492,6 +494,11 @@ export class AutocompleteComponent implements OnInit, OnChanges, AfterViewInit, 
       this.setPanelState(event);
     }
     this.isFocused = true;
+  }
+
+  handleBlur(e){
+    this.searchInput.nativeElement.blur();
+    this.inputBlur.emit(e);
   }
 
   scrollToEnd(): void {
